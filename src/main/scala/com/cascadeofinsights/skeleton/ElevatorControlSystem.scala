@@ -20,7 +20,7 @@ trait ElevatorControl {
 
 class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
-  val elevators: Map[Int, ElevatorState] = List.range(0, count).map((_, ElevatorState(0, Set.empty, Direction.Up))).toMap
+  val elevators: Map[Int, ElevatorState] = List.range(0, count).map((_, ElevatorState(1, Set.empty, Direction.Up))).toMap
 
   var pickups: List[Pickup] = List.empty
 

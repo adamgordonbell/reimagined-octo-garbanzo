@@ -10,31 +10,32 @@ class StackSpec extends FunSpec with GivenWhenThen {
 
   describe("An Elevator Control System") {
 
-    it("something") {
+    it("should init") {
 
       Given("one elevator")
-      val x = new ElevatorControlSystem(1)
+      val system = new ElevatorControlSystem(1)
 
       When("status is called")
-      val result = x.status()
+      val result = system.status()
 
       Then("we should have one elevator")
       assert(result.head._1 === 0)
     }
 
-    it("should throw NoSuchElementException if an empty stack is popped") {
+    it("start moving") {
 
-      Given("an empty stack")
-      val emptyStack = new Stack[String]
+      Given("one elevator")
+      val system = new ElevatorControlSystem(1)
 
-      When("pop is invoked on the stack")
-      When("NoSuchElementException should be thrown")
-      intercept[NoSuchElementException] {
-        emptyStack.pop()
-      }
+      When("One Pickup request")
+      system.pickup(Pickup(3, Direction.Up))
+      system.step()
+      system.step()
 
-      And("the stack should still be empty")
-      assert(emptyStack.isEmpty)
+      Then("we should be on the third floor")
+      val currentFloor = system.status.head._2.currentFloor
+      assert(currentFloor === 3)
     }
+
   }
 }
