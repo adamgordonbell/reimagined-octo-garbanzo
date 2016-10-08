@@ -1,6 +1,6 @@
 package com.cascadeofinsights.skeleton
 
-object SimpleApp extends App {
+object Main extends App {
   val system = new ElevatorControlSystem(1)
   system.pickup(Pickup(3, Direction.Down))
   system.pickup(Pickup(5, Direction.Down))
