@@ -14,6 +14,8 @@ case class ElevatorState(
     ElevatorState(currentFloor, pickup :: pendingPickups, pendingDropOffs, direction)
   }
 
+  def isIdle: Boolean = pendingDropOffs.isEmpty && pendingPickups.isEmpty
+
   def step(): ElevatorState = {
     //pickups left after reaching this floor
     def remainingPickups(floor: Int): List[Pickup] = pendingPickups.filter(_.currentFloor != floor)
@@ -50,10 +52,10 @@ case class ElevatorState(
     }
 
     //If we have nothing to do, then we are done
-    if (pendingDropOffs.isEmpty && pendingPickups.isEmpty) {
+    if (isIdle) {
       this
     } else {
-      //Increment floor
+      //else increment floor
       val floor = direction match {
         case Direction.Up => currentFloor + 1
         case _ => currentFloor - 1

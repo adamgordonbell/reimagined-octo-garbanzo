@@ -1,9 +1,20 @@
 package com.cascadeofinsights.skeleton
 
 object SimpleApp extends App {
-  println("What is the meaning of Life, the Universe, and Everything?")
-  lazy val theAnswer = 42
-  Thread.sleep(2000)
-  println(s"The answer is: ${theAnswer}")
-  val (a, b) = (1, 2)
+  val system = new ElevatorControlSystem(1)
+  println(system.status)
+  system.pickup(Pickup(3, Direction.Down))
+  println(system.status)
+  system.pickup(Pickup(5, Direction.Down))
+  println(system.status)
+  system.step()
+  println(system.status)
+  system.step()
+  println(system.status)
+  system.step()
+  println(system.status)
+  system.step()
+  println(system.status)
+  system.step()
+  println(system.status)
 }

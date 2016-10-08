@@ -30,7 +30,13 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
   def update(id: Int, state: ElevatorState): Unit = elevators(id) = (id, state)
 
   def pickup(pickup: Pickup): Unit = {
-    update(0, getElevator(0).addPickup(pickup))
+    //Assign to the first idle elevator
+    val firstIdle = elevators.filter(_._2.isIdle).headOption
+    firstIdle match {
+      case Some(elevator) => update(elevator._1, getElevator(elevator._1).addPickup(pickup))
+      case _ => update(0, getElevator(0).addPickup(pickup))
+    }
+
   }
 
   def step(): Unit = {
