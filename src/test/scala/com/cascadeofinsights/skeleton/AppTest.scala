@@ -37,5 +37,19 @@ class StackSpec extends FunSpec with GivenWhenThen {
       assert(currentFloor === 3)
     }
 
+    it("should switch directions") {
+
+      Given("one elevator")
+      val system = new ElevatorControlSystem(1)
+
+      When("One Pickup request")
+      system.pickup(Pickup(3, Direction.Down))
+      system.step()
+      system.step()
+
+      Then("we should be on the third floor")
+      val direction = system.status.head._2.direction
+      assert(direction === Direction.Down)
+    }
   }
 }
