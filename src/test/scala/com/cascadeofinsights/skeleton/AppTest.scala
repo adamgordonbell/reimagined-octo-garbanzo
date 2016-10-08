@@ -1,27 +1,25 @@
+package com.cascadeofinsights.skeleton
+
+import com.cascadeofinsights.skeleton.ElevatorControlSystem
 import org.scalatest.FunSpec
 import org.scalatest.GivenWhenThen
+
 import scala.collection.mutable.Stack
 
 class StackSpec extends FunSpec with GivenWhenThen {
 
-  describe("A Stack") {
+  describe("An Elevator Control System") {
 
-    it("should pop values in last-in-first-out-order") {
+    it("something") {
 
-      Given("a non-empty stack")
-      val stack = new Stack[Int]
-      stack.push(1)
-      stack.push(2)
-      val oldSize = stack.size
+      Given("one elevator")
+      val x = new ElevatorControlSystem(1)
 
-      When("pop is invoked on the stack")
-      val result = stack.pop()
+      When("status is called")
+      val result = x.status()
 
-      Then("the most recently pushed element should be returned")
-      assert(result === 2)
-
-      And("the stack should have one less item than before")
-      assert(stack.size === oldSize - 1)
+      Then("we should have one elevator")
+      assert(result.head._1 === 0)
     }
 
     it("should throw NoSuchElementException if an empty stack is popped") {
