@@ -19,8 +19,18 @@ case class ElevatorState(
     def remainingPickups(floor: Int): List[Pickup] = pendingPickups.filter(_.currentFloor != floor)
 
     //pickups that will join on this floor and thereby become drop offs
-    def joiningPickups(floor: Int): List[Pickup] = pendingPickups.filter(_.currentFloor == floor)
+    def joiningPickups(floor: Int): List[Pickup] = {
+      pendingPickups.filter(x => x.currentFloor == floor && (x.direction == direction || !arePickupsBeyondThisFloor(floor)))
+    }
 
+    //Are we as high up or low down as we need to go and will therefore switch directions
+    def arePickupsBeyondThisFloor(floor: Int) = {
+      val count = direction match {
+        case Direction.Up => pendingPickups.filter(_.currentFloor > floor).length
+        case _ => pendingPickups.filter(_.currentFloor < floor).length
+      }
+      count > 0
+    }
     //new drop off floors, after reaching this floor
     def newDropOffs(floor: Int): List[Int] = joiningPickups(floor).map(_.goalFloor)
 

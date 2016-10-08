@@ -51,5 +51,22 @@ class StackSpec extends FunSpec with GivenWhenThen {
       val direction = system.status.head._2.direction
       assert(direction === Direction.Down)
     }
+
+    it("should not pickup people going the wrong direction") {
+
+      Given("one elevator")
+      val system = new ElevatorControlSystem(1)
+
+      When("two Pickup request")
+      system.pickup(Pickup(3, Direction.Down))
+      system.pickup(Pickup(5, Direction.Down))
+      system.step()
+      system.step()
+      system.step()
+
+      Then("we should not have a passenger")
+      val passengers = system.status.head._2.pendingDropOffs
+      assert(passengers === Set.empty)
+    }
   }
 }
