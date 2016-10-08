@@ -58,7 +58,6 @@ wartremoverWarnings ++= Warts.unsafe //No false positive
 //Style Check section
 scalastyleConfig <<= baseDirectory { _ / "src/main/config" / "scalastyle-config.xml" }
 
-coverageEnabled := true
 
 //cpdSettings - not working
 //enablePlugins(CopyPasteDetector)

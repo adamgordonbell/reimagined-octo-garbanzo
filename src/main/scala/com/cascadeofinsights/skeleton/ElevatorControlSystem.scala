@@ -34,6 +34,7 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
     val firstIdle = elevators.filter(_._2.isIdle).headOption
     firstIdle match {
       case Some(elevator) => update(elevator._1, getElevator(elevator._1).addPickup(pickup))
+      //otherwise pick the first
       case _ => update(0, getElevator(0).addPickup(pickup))
     }
 
