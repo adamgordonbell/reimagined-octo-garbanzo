@@ -17,12 +17,17 @@ case class ElevatorState(
   def isIdle: Boolean = pendingDropOffs.isEmpty && pendingPickups.isEmpty
 
   def step(): ElevatorState = {
+
+    //Whether we should pick this person up
+    def toPickup(floor: Int): (Pickup) => Boolean = {
+      x => x.currentFloor == floor && (x.direction == direction || !arePickupsBeyondThisFloor(floor))
+    }
     //pickups left after reaching this floor
-    def remainingPickups(floor: Int): List[Pickup] = pendingPickups.filter(_.currentFloor != floor)
+    def remainingPickups(floor: Int): List[Pickup] = pendingPickups.filterNot(toPickup(floor))
 
     //pickups that will join on this floor and thereby become drop offs
     def joiningPickups(floor: Int): List[Pickup] = {
-      pendingPickups.filter(x => x.currentFloor == floor && (x.direction == direction || !arePickupsBeyondThisFloor(floor)))
+      pendingPickups.filter(toPickup(floor))
     }
 
     //Are we as high up or low down as we need to go and will therefore switch directions
@@ -58,12 +63,12 @@ case class ElevatorState(
       //else increment floor
       val floor = direction match {
         case Direction.Up => currentFloor + 1
-        case _ => currentFloor - 1
+        case _ => Math.max(currentFloor - 1, 1)
       }
       ElevatorState(
         currentFloor = floor,
-        pendingPickups = remainingPickups(currentFloor),
-        pendingDropOffs = dropOffs(currentFloor),
+        pendingPickups = remainingPickups(floor),
+        pendingDropOffs = dropOffs(floor),
         directionFollowingPickup(floor)
       )
     }
