@@ -2,11 +2,12 @@ package com.cascadeofinsights.skeleton
 
 import com.cascadeofinsights.skeleton.Direction.Direction
 
+import scala.collection.mutable
 import scala.util.Random
 
 trait ElevatorControl {
   //The status of all elevators
-  def status(): Map[Int, ElevatorState]
+  def status(): List[(Int, ElevatorState)]
 
   //update the state of the elevators
   def update(id: Int, state: ElevatorState)
@@ -20,36 +21,38 @@ trait ElevatorControl {
 
 class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
-  val elevators: Map[Int, ElevatorState] = List.range(0, count).map((_, ElevatorState())).toMap
+  var elevators: mutable.Buffer[(Int, ElevatorState)] = List.range(0, count).map((_, ElevatorState())).toBuffer
 
   var pickups: List[Pickup] = List.empty
 
-  def status = elevators
+  def status: List[(Int, ElevatorState)] = elevators.toList
 
-  def update(id: Int, state: ElevatorState) = null
+  def update(id: Int, state: ElevatorState): Unit = elevators(id) = (id, state)
 
-  def pickup(pickup: Pickup) = pickups = pickup :: pickups
+  def pickup(pickup: Pickup): Unit = update(0, getElevator(0).addPickup(pickup))
 
-  def step = {
+  def step(): Unit = {
+    elevators = elevators.map { case (i, state) => (i, state.step()) }
+  }
 
-    //assign each pickup to an elevator
-    for( p <- pickups) {
-      elevators(0) = elevators(0).addPickup(p)
-    }
-    //step each elevator towards its goal
-    for
+  private def getElevator(id: Int): ElevatorState = {
+    elevators.filter(_._1 == id).head._2
   }
 
 }
 
 case class ElevatorState(
-  currentFloor: Int = 1,
-  pendingPickups: List[Pickup] = List.empty,
-  pendingDropOffs: Set[Int] = Set.empty,
-  direction: Direction = Direction.Up
-){
-  def addPickup(pickup : Pickup): Unit ={
-    ElevatorState(currentFloor, pickup :: pendingPickups, pendingDropOffs,direction)
+    currentFloor: Int = 1,
+    pendingPickups: List[Pickup] = List.empty,
+    pendingDropOffs: Set[Int] = Set.empty,
+    direction: Direction = Direction.Up
+) {
+  def addPickup(pickup: Pickup): ElevatorState = {
+    ElevatorState(currentFloor, pickup :: pendingPickups, pendingDropOffs, direction)
+  }
+
+  def step(): ElevatorState = {
+    null
   }
 }
 
