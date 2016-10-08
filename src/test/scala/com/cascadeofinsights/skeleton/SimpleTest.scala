@@ -6,7 +6,7 @@ import org.scalatest.GivenWhenThen
 
 import scala.collection.mutable.Stack
 
-class StackSpec extends FunSpec with GivenWhenThen {
+class SimpleTest extends FunSpec with GivenWhenThen {
 
   describe("An Elevator Control System") {
 

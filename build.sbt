@@ -50,10 +50,10 @@ addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1-SNAPSHOT")
 
 
 //wartremoverWarnings ++= Warts.all // Some false positives
-wartremoverWarnings ++= Warts.unsafe //No false positive
+//wartremoverWarnings ++= Warts.unsafe //No false positive
 
 //add Scapegoat to compile
-(compile in Compile) <<= (compile in Compile) dependsOn scapegoat
+//(compile in Compile) <<= (compile in Compile) dependsOn scapegoat
 
 //Style Check section
 scalastyleConfig <<= baseDirectory { _ / "src/main/config" / "scalastyle-config.xml" }

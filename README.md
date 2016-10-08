@@ -18,6 +18,21 @@ You can use the language of your choice to implement an elevator control system.
   ```
   sbt run
   ```
+## Example run:
+```
+[info] Running com.cascadeofinsights.skeleton.Main 
+List((0,ElevatorState(1,List(Pickup(5,Down), Pickup(3,Down)),Set(),Up)))
+List((0,ElevatorState(2,List(Pickup(5,Down), Pickup(3,Down)),Set(),Up)))
+List((0,ElevatorState(3,List(Pickup(5,Down), Pickup(3,Down)),Set(),Up)))
+List((0,ElevatorState(4,List(Pickup(5,Down), Pickup(3,Down)),Set(),Up)))
+List((0,ElevatorState(5,List(Pickup(3,Down)),Set(3),Down)))
+List((0,ElevatorState(4,List(Pickup(3,Down)),Set(3),Down)))
+List((0,ElevatorState(3,List(),Set(1),Down)))
+List((0,ElevatorState(2,List(),Set(1),Down)))
+List((0,ElevatorState(1,List(),Set(),Down)))
+List((0,ElevatorState(1,List(),Set(),Down)))
+
+```
 ## Usage
  * See tests for sample usage
  

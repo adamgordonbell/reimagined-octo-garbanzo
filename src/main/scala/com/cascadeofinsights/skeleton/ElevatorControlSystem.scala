@@ -29,9 +29,11 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
   def update(id: Int, state: ElevatorState): Unit = elevators(id) = (id, state)
 
+  //Here we decide which elevator to assign the pickup to
+
   def pickup(pickup: Pickup): Unit = {
     //Assign to the first idle elevator
-    val firstIdle = elevators.filter(_._2.isIdle).headOption
+    val firstIdle = elevators.find(_._2.isIdle)
     firstIdle match {
       case Some(elevator) => update(elevator._1, getElevator(elevator._1).addPickup(pickup))
       //otherwise pick the first

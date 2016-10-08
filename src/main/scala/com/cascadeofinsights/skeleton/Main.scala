@@ -16,7 +16,7 @@ object Main extends App {
   printStep
   printStep
 
-  def printStep: Unit = {
+  def printStep(): Unit = {
     system.step()
     println(system.status)
   }

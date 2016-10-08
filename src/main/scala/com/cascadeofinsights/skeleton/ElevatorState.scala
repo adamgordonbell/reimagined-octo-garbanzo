@@ -33,8 +33,8 @@ case class ElevatorState(
     //Are we as high up or low down as we need to go and will therefore switch directions
     def arePickupsBeyondThisFloor(floor: Int) = {
       val count = direction match {
-        case Direction.Up => pendingPickups.filter(_.currentFloor > floor).length
-        case _ => pendingPickups.filter(_.currentFloor < floor).length
+        case Direction.Up => pendingPickups.count(_.currentFloor > floor)
+        case _ => pendingPickups.count(_.currentFloor < floor)
       }
       count > 0
     }
