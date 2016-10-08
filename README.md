@@ -7,9 +7,17 @@ You can use the language of your choice to implement an elevator control system.
 
 ## Build Instructions
  * run >sbt compile to generate a jar file
+ ```
+ sbt compile
+ ```
  * run >sbt test to runs tests
+  ```
+  sbt test
+  ```
  * run >sbt run to run an example
- 
+  ```
+  sbt run
+  ```
 ## Usage
  * See tests for sample usage
  
@@ -30,4 +38,7 @@ You can use the language of your choice to implement an elevator control system.
       val passengers = system.status.head._2.pendingDropOffs
       assert(passengers === Set.empty)
     }
-    ``` 
+``` 
+    
+## The scheduling problem
+Currently a pickup is assigned to the first non idle elevator.  This is not ideal.
