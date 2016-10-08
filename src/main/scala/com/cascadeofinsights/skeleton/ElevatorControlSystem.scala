@@ -20,7 +20,7 @@ trait ElevatorControl {
 
 class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
-  val elevators: Map[Int, ElevatorState] = List.range(0, count).map((_, ElevatorState(1, Set.empty, Direction.Up))).toMap
+  val elevators: Map[Int, ElevatorState] = List.range(0, count).map((_, ElevatorState())).toMap
 
   var pickups: List[Pickup] = List.empty
 
@@ -30,11 +30,28 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
   def pickup(pickup: Pickup) = pickups = pickup :: pickups
 
-  def step = null
+  def step = {
+
+    //assign each pickup to an elevator
+    for( p <- pickups) {
+      elevators(0) = elevators(0).addPickup(p)
+    }
+    //step each elevator towards its goal
+    for
+  }
 
 }
 
-case class ElevatorState(currentFloor: Int, goalFloor: Set[Int], direction: Direction)
+case class ElevatorState(
+  currentFloor: Int = 1,
+  pendingPickups: List[Pickup] = List.empty,
+  pendingDropOffs: Set[Int] = Set.empty,
+  direction: Direction = Direction.Up
+){
+  def addPickup(pickup : Pickup): Unit ={
+    ElevatorState(currentFloor, pickup :: pendingPickups, pendingDropOffs,direction)
+  }
+}
 
 object Direction extends Enumeration {
   type Direction = Value
