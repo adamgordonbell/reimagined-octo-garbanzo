@@ -29,7 +29,9 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
   def update(id: Int, state: ElevatorState): Unit = elevators(id) = (id, state)
 
-  def pickup(pickup: Pickup): Unit = update(0, getElevator(0).addPickup(pickup))
+  def pickup(pickup: Pickup): Unit = {
+    update(0, getElevator(0).addPickup(pickup))
+  }
 
   def step(): Unit = {
     elevators = elevators.map { case (i, state) => (i, state.step()) }
@@ -41,33 +43,3 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
 
 }
 
-case class ElevatorState(
-    currentFloor: Int = 1,
-    pendingPickups: List[Pickup] = List.empty,
-    pendingDropOffs: Set[Int] = Set.empty,
-    direction: Direction = Direction.Up
-) {
-  def addPickup(pickup: Pickup): ElevatorState = {
-    ElevatorState(currentFloor, pickup :: pendingPickups, pendingDropOffs, direction)
-  }
-
-  def step(): ElevatorState = {
-    null
-  }
-}
-
-object Direction extends Enumeration {
-  type Direction = Value
-  val Up, Down = Value
-}
-
-case class Pickup(currentFloor: Int, direction: Direction) {
-  val random = new Random()
-
-  // Goal floor is not know until you get in the elevator
-  // For now, we just hardcode it to 2 floors up or down
-  lazy val goalFloor = direction match {
-    case Direction.Up => currentFloor + 2
-    case _ => Math.max(currentFloor - 2, 0)
-  }
-}
