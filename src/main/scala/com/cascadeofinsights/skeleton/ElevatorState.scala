@@ -72,6 +72,13 @@ case class ElevatorState(
         directionFollowingPickup(floor)
       )
     }
+  }
 
+  //And elevator is on its way if it is going the same way, and not there yet
+  def isOnWay(pickup: Pickup): Boolean = {
+    direction match {
+      case Direction.Up => pickup.direction == Direction.Up && pickup.currentFloor > currentFloor
+      case _ => pickup.direction == Direction.Down && pickup.currentFloor < currentFloor
+    }
   }
 }

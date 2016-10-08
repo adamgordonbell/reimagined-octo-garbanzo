@@ -32,22 +32,23 @@ class ElevatorControlSystem(count: Int) extends ElevatorControl {
   //Here we decide which elevator to assign the pickup to
 
   def pickup(pickup: Pickup): Unit = {
-    //Assign to the first idle elevator
-    val firstIdle = elevators.find(_._2.isIdle)
-    firstIdle match {
-      case Some(elevator) => update(elevator._1, getElevator(elevator._1).addPickup(pickup))
-      //otherwise pick the first
-      case _ => update(0, getElevator(0).addPickup(pickup))
+    def elevatorInDirection(): Option[(Int, ElevatorState)] = {
+      elevators.find(_._2.isOnWay(pickup))
     }
-
+    def leastBusy(): (Int, ElevatorState) = {
+      elevators.minBy(_._2.pendingPickups.length)
+    }
+    val firstIdle = elevators.find(_._2.isIdle)
+    val elevatorState: (Int, ElevatorState) = elevatorInDirection().getOrElse(firstIdle.getOrElse(leastBusy))
+    update(elevatorState._1, elevatorState._2.addPickup(pickup))
   }
 
   def step(): Unit = {
     elevators = elevators.map { case (i, state) => (i, state.step()) }
   }
 
-  private def getElevator(id: Int): ElevatorState = {
-    elevators.filter(_._1 == id).head._2
+  private def getElevator(id: Int): (Int, ElevatorState) = {
+    elevators.filter(_._1 == id).head
   }
 
 }

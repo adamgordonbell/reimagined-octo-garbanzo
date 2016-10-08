@@ -56,4 +56,7 @@ List((0,ElevatorState(1,List(),Set(),Down)))
 ``` 
     
 ## The scheduling problem
-Currently a pickup is assigned to the first non idle elevator.  This is not ideal.
+Currently a pickup is assigned  this way
+ * If there is an elevator on the way, use it
+ * else if there is an idle elevator use it
+ * else use the elevator with the least pending pickups
